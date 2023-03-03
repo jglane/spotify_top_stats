@@ -1,7 +1,14 @@
-const CLIENT_ID = "0b3237ec461e491ba223031ab73c4d23";
-const CLIENT_SECRET = "10c2186409784cd080e71e884b564fa5";
+var CLIENT_ID;
+var CLIENT_SECRET;
 
 document.addEventListener("readystatechange", async (event) => {
+    await fetch(`${window.location.origin}/env`)
+    .then(response => response.json())
+    .then(env_vars => {
+        CLIENT_ID = env_vars.CLIENT_ID;
+        CLIENT_SECRET = env_vars.CLIENT_SECRET;
+    });
+    
     if (sessionStorage.getItem("ACCESS_TOKEN") == null || sessionStorage.getItem("ACCESS_TOKEN") == 'undefined') {
         code = document.URL.match(/code=([^&]+)/)[1];
         if (code) {
