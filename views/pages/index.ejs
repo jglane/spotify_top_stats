@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="spotify_orange.png">
     <title>Document</title>
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
+    <%- include('../partials/header') %>
     <script>
-        location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=0b3237ec461e491ba223031ab73c4d23&redirect_uri=${window.location.origin}/home&scope=user-top-read`;
+        location.href = `https://accounts.spotify.com/authorize?response_type=code&client_id=0b3237ec461e491ba223031ab73c4d23&redirect_uri=${window.location.origin}/artists&scope=user-top-read`;
     </script>
 </body>
 </html>

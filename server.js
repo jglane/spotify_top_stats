@@ -1,10 +1,13 @@
 const express = require('express');
+const ejs = require('ejs');
 require('dotenv').config();
 
 const app = express();
 
-app.use(express.static('authenticate'));
-app.use('/home', express.static('home'));
+// Render files in the public folder
+app.use(express.static('public'));
+
+app.set('view engine', 'ejs');
 
 app.get('/env', (req, res) => {
     res.send({
@@ -15,4 +18,22 @@ app.get('/env', (req, res) => {
 
 app.listen(3000, () => {
     console.log('Server listening on port 3000')
+});
+
+app.get('/', (req, res) => {
+    res.render('pages/index');
+});
+
+app.get('/artists', (req, res) => {
+    res.render('pages/home', {
+        // EJS variable: server-side variable
+        page_type: 'artists'
+    });
+});
+
+app.get('/tracks', (req, res) => {
+    res.render('pages/home', {
+        // EJS variable: server-side variable
+        page_type: 'tracks'
+    });
 });
