@@ -22,17 +22,31 @@ document.addEventListener("readystatechange", async (event) => {
             .then(data => {
                 sessionStorage.setItem("ACCESS_TOKEN", data.access_token);
                 sessionStorage.setItem("REFRESH_TOKEN", data.refresh_token);
+                sessionStorage.setItem('expires_at', data.expires_in * 1000 + Date.now());
             });
         } else {
             console.error('Authorization code needed')
         }
+    } else if (sessionStorage.getItem('expires_at') < Date.now()) {
+        await fetch(`https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=${sessionStorage.getItem('REFRESH_TOKEN')}`, {
+            method: "POST",
+            headers: {
+                Authorization: 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            sessionStorage.setItem("ACCESS_TOKEN", data.access_token);
+            sessionStorage.setItem('expires_at', data.expires_in * 1000 + Date.now());
+        });
     }
 
     await fetch(`https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term`, {
         headers: {
             Authorization: 'Bearer ' + sessionStorage.getItem('ACCESS_TOKEN')
         }
-    }).then(response => response.json()).then(data => {
+    }).then(response => response.json())
+    .then(data => {
         const top_artists = data.items;
         for (let i = 0; i < top_artists.length; i++) {
             const li_artist = document.createElement('li');
@@ -62,5 +76,15 @@ document.addEventListener("readystatechange", async (event) => {
             document.querySelector('ol.tracks').appendChild(li_track_name);
         }
         console.log(data)
+    });
+
+    document.querySelector('a.artists').addEventListener('click', (event) => {
+        document.querySelector('section.artists').classList.remove('hidden');
+        document.querySelector('section.tracks').classList.add('hidden');
+    });
+
+    document.querySelector('a.tracks').addEventListener('click', (event) => {
+        document.querySelector('section.tracks').classList.remove('hidden');
+        document.querySelector('section.artists').classList.add('hidden');
     });
 });
