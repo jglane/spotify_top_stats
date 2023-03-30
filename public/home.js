@@ -87,4 +87,26 @@ document.addEventListener("readystatechange", async (event) => {
             console.log(data)
         });
     }
+
+    selectArtists = document.querySelector('select.artists');
+    selectArtists.onchange = () => {
+        if (selectArtists.value == 'long_term') {
+            window.location.href = '/artists';
+        } else if (selectArtists.value == 'medium_term') {
+            window.location.href = '/artists';
+        } else if (selectArtists.value == 'short_term') {
+            window.location.href = '/artists';
+        }
+    }
+
+    selectTracks = document.querySelector('select.tracks');
+    selectTracks.onchange = () => {
+        if (selectTracks.value == 'long_term') {
+            window.location.href = '/tracks';
+        } else if (selectTracks.value == 'medium_term') {
+            window.location.href = '/tracks';
+        } else if (selectTracks.value == 'short_term') {
+            window.location.href = '/tracks';
+        }
+    }
 });

@@ -1,8 +1,22 @@
 <header>
     <nav>
         <ul>
-            <li><a class="artists" href="/artists">Top Artists</a></li>
-            <li><a class="tracks" href="/tracks">Top Tracks</a></li>
+            <li>
+                <select class="artists">
+                    <option selected hidden>Top Artists</option>
+                    <option value="short_term">Last 4 Weeks</option>
+                    <option value="medium_term">Last 6 Months</option>                    
+                    <option value="long_term">All Time</option>
+                </select>
+            </li>
+            <li>
+                <select class="tracks">
+                    <option selected hidden>Top Tracks</option>
+                    <option value="short_term">Last 4 Weeks</option>
+                    <option value="medium_term">Last 6 Months</option>                    
+                    <option value="long_term">All Time</option>
+                </select>
+            </li>
         </ul>
         <button>Logout</button>
     </nav>
