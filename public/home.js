@@ -41,8 +41,9 @@ document.addEventListener("readystatechange", async (event) => {
         });
     }
 
-    if (document.querySelector('ol').classList.contains('artists')) {
-        await fetch(`https://api.spotify.com/v1/me/top/artists?limit=50&time_range=long_term`, {
+    const list = document.querySelector('ol');
+    if (list.classList.contains('artists')) {
+        await fetch(`https://api.spotify.com/v1/me/top/artists?limit=50&time_range=${list.id}`, {
             headers: {
                 Authorization: 'Bearer ' + sessionStorage.getItem('ACCESS_TOKEN')
             }
@@ -60,12 +61,12 @@ document.addEventListener("readystatechange", async (event) => {
                 p_artist_name.appendChild(document.createTextNode(top_artists[i].name));
                 li_artist.appendChild(p_artist_name);
 
-                document.querySelector('ol').appendChild(li_artist);
+                list.appendChild(li_artist);
             }
             console.log(data)
         });
-    } else if (document.querySelector('ol').classList.contains('tracks')) {
-        await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term`, {
+    } else if (list.classList.contains('tracks')) {
+        await fetch(`https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=${list.id}`, {
             headers: {
                 Authorization: 'Bearer ' + sessionStorage.getItem('ACCESS_TOKEN')
             }
@@ -82,7 +83,7 @@ document.addEventListener("readystatechange", async (event) => {
                 p_track_name.appendChild(document.createTextNode(top_tracks[i].name));
                 li_track.appendChild(p_track_name);
 
-                document.querySelector('ol').appendChild(li_track);
+                list.appendChild(li_track);
             }
             console.log(data)
         });
@@ -91,22 +92,22 @@ document.addEventListener("readystatechange", async (event) => {
     selectArtists = document.querySelector('select.artists');
     selectArtists.onchange = () => {
         if (selectArtists.value == 'long_term') {
-            window.location.href = '/artists';
+            window.location.href = '/artists?time_range=long_term';
         } else if (selectArtists.value == 'medium_term') {
-            window.location.href = '/artists';
+            window.location.href = '/artists?time_range=medium_term';
         } else if (selectArtists.value == 'short_term') {
-            window.location.href = '/artists';
+            window.location.href = '/artists?time_range=short_term';
         }
     }
 
     selectTracks = document.querySelector('select.tracks');
     selectTracks.onchange = () => {
         if (selectTracks.value == 'long_term') {
-            window.location.href = '/tracks';
+            window.location.href = '/tracks?time_range=long_term';
         } else if (selectTracks.value == 'medium_term') {
-            window.location.href = '/tracks';
+            window.location.href = '/tracks?time_range=medium_term';
         } else if (selectTracks.value == 'short_term') {
-            window.location.href = '/tracks';
+            window.location.href = '/tracks?time_range=short_term';
         }
     }
 });

@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
 app.get('/artists', (req, res) => {
     res.render('pages/home', {
         // EJS variable: server-side variable
-        page_type: 'artists'
+        page_type: 'artists',
+        time_range: req.query.time_range
     });
 });
 
@@ -34,7 +35,8 @@ app.get('/artists', (req, res) => {
 app.get('/tracks', (req, res) => {
     res.render('pages/home', {
         // EJS variable: server-side variable
-        page_type: 'tracks'
+        page_type: 'tracks',
+        time_range: req.query.time_range
     });
 });
 
