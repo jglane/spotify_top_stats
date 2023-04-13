@@ -12,7 +12,7 @@ document.addEventListener("readystatechange", async (event) => {
     if (sessionStorage.getItem("ACCESS_TOKEN") == null || sessionStorage.getItem("ACCESS_TOKEN") == 'undefined') {
         code = document.URL.match(/code=([^&]+)/)[1];
         if (code) {
-            await fetch(`https://accounts.spotify.com/api/token?code=${code}&grant_type=authorization_code&redirect_uri=${window.location.origin}/artists&client_secret=${CLIENT_SECRET}`, {
+            await fetch(`https://accounts.spotify.com/api/token?code=${code}&grant_type=authorization_code&redirect_uri=${window.location.origin}/artists?time_range=long_term&client_secret=${CLIENT_SECRET}`, {
                 method: "POST",
                 headers: {
                     Authorization: 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
@@ -25,7 +25,7 @@ document.addEventListener("readystatechange", async (event) => {
                 sessionStorage.setItem('expires_at', data.expires_in * 1000 + Date.now());
             });
         } else {
-            console.error('Authorization code needed')
+            console.error('Authorization code needed');
         }
     } else if (sessionStorage.getItem('expires_at') < Date.now()) {
         await fetch(`https://accounts.spotify.com/api/token?grant_type=refresh_token&refresh_token=${sessionStorage.getItem('REFRESH_TOKEN')}`, {
@@ -82,6 +82,12 @@ document.addEventListener("readystatechange", async (event) => {
                 const p_track_name = document.createElement('p');
                 p_track_name.appendChild(document.createTextNode(top_tracks[i].name));
                 li_track.appendChild(p_track_name);
+
+                const p_track_artist = document.createElement('p');
+                p_track_artist.appendChild(document.createTextNode(top_tracks[i].artists[0].name));
+                p_track_artist.style.marginLeft = 'auto';
+                p_track_artist.style.marginRight = '1em';
+                li_track.appendChild(p_track_artist);
 
                 list.appendChild(li_track);
             }
